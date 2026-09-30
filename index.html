@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vem conferir as ofertas do seu bom vizinho.</title>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .card-elevated {
+      box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-elevated:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px -10px rgba(234, 88, 12, 0.22);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+  <!-- CABEÇALHO -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3.5">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-orange-500 via-emerald-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-orange-500/25 flex-shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+        </div>
+        <h1 class="text-lg sm:text-2xl font-black text-slate-900 tracking-tight">
+          Vem conferir as ofertas do seu bom vizinho.
+        </h1>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="btnRefresh" type="button" class="px-3.5 py-2 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-600 border border-orange-200 text-xs font-bold flex items-center gap-1.5 transition active:scale-95 shadow-sm">
+          <svg id="syncIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+          </svg>
+          <span>Atualizar</span>
+        </button>
+
+        <button id="btnOpenAdmin" type="button" title="Área Restrita do Marketing (Senha)" class="p-2 sm:px-3.5 sm:py-2 rounded-xl bg-orange-100 hover:bg-orange-200 text-orange-700 border border-orange-200 text-xs font-bold flex items-center gap-1.5 transition active:scale-95">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+          </svg>
+          <span class="hidden sm:inline">Marketing</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+    <div id="flyerGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8"></div>
+    
+    <div id="emptyState" class="hidden text-center py-20">
+      <div class="w-16 h-16 rounded-3xl bg-orange-100 text-orange-600 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+      </div>
+      <h3 class="text-lg font-bold text-slate-800">Nenhum encarte ativo no momento</h3>
+      <p class="text-xs text-slate-500 mt-1">Fique atento, em breve teremos novas ofertas do seu bom vizinho!</p>
+    </div>
+  </main>
+
+  <!-- MODAL 1: LEITOR INTERATIVO (IMAGENS & PDF) -->
+  <div id="modalLightbox" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm hidden flex-col">
+    <div class="bg-white px-4 sm:px-6 py-3.5 border-b border-slate-200 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <span id="modalPageBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700">Pág. 1</span>
+        <h2 id="modalTitle" class="text-sm sm:text-base font-bold text-slate-800 truncate max-w-md">Encarte</h2>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a id="btnModalDirectLink" href="#" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md flex items-center gap-1.5 transition active:scale-95">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+          <span>Acessar Link do Encarte</span>
+        </a>
+        <button id="btnCloseModal" type="button" class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition" title="Fechar (Esc)">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex-1 p-2 sm:p-6 flex items-center justify-center overflow-hidden relative">
+      <button id="btnPrevPage" type="button" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-xl flex items-center justify-center transition active:scale-90 z-20 hidden">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+      </button>
+
+      <div id="modalContentContainer" class="w-full h-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl bg-white flex items-center justify-center relative"></div>
+
+      <button id="btnNextPage" type="button" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-xl flex items-center justify-center transition active:scale-90 z-20 hidden">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+      </button>
+    </div>
+
+    <div id="modalThumbnailStrip" class="bg-slate-900/90 py-2.5 px-4 flex items-center justify-center gap-2 overflow-x-auto hidden"></div>
+  </div>
+
+  <!-- MODAL 2: ÁREA RESTRITA DO MARKETING -->
+  <div id="modalAdmin" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm hidden">
+    <div class="bg-white rounded-3xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
+      
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-orange-50 via-white to-amber-50">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-orange-600 text-white flex items-center justify-center shadow-md shadow-orange-600/20">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+          </div>
+          <div>
+            <h2 class="text-base font-black text-slate-900">Área do Marketing</h2>
+            <p class="text-xs text-slate-500">Gerenciador de campanhas e encartes</p>
+          </div>
+        </div>
+        <button id="btnCloseAdmin" type="button" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6">
+        
+        <!-- Tela de Login -->
+        <div id="adminLoginSection">
+          <div class="text-center max-w-sm mx-auto mb-6">
+            <div class="w-12 h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mx-auto mb-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+            </div>
+            <h3 class="text-base font-bold text-slate-900">Acesso Restrito</h3>
+            <p class="text-xs text-slate-500 mt-1">Digite sua senha para cadastrar ou gerenciar os encartes.</p>
+          </div>
+
+          <form id="formAdminLogin" class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5 uppercase">Senha</label>
+              <input id="adminPasswordInput" type="password" placeholder="Digite sua senha..." class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm font-semibold" autofocus />
+              <p id="adminErrorMsg" class="hidden text-xs font-bold text-red-600 mt-2">Senha incorreta! Tente novamente.</p>
+            </div>
+            <button type="submit" class="w-full py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm shadow-md transition active:scale-95">
+              Entrar no Painel
+            </button>
+          </form>
+        </div>
+
+        <!-- Tela de Upload & Gerenciador -->
+        <div id="adminPanelSection" class="hidden space-y-6">
+          <form id="formUploadAvulso" class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+              <span>Subir Novo Encarte ou Campanha</span>
+            </h3>
+
+            <!-- Seletor de Arquivos -->
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5">Arquivos (Selecione fotos ou arquivo PDF)</label>
+              <label class="border-2 border-dashed border-slate-300 hover:border-orange-500 bg-white rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer transition">
+                <input id="avulsoFileInput" type="file" accept="image/*,application/pdf" multiple class="hidden" />
+                <span id="avulsoFileNameDisplay" class="text-xs font-bold text-slate-700 text-center">Clique para selecionar do computador</span>
+                <span class="text-[11px] text-slate-400">Suporta 1 ou várias fotos (JPG/PNG) ou documento PDF</span>
+              </label>
+            </div>
+
+            <!-- ORGANIZADOR DE CAPA E SEQUÊNCIA -->
+            <div id="reorderContainer" class="hidden space-y-2 p-3.5 bg-white rounded-xl border border-slate-200">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800 flex items-center gap-1">
+                  <span>📸 Ordem das Páginas & Foto de Capa</span>
+                </span>
+                <span class="text-[10px] text-slate-500">A 1ª foto é a CAPA ⭐</span>
+              </div>
+              <div id="previewPagesList" class="space-y-2 max-h-56 overflow-y-auto pr-1"></div>
+            </div>
+
+            <!-- Título -->
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5">Título da Oferta / Campanha</label>
+              <input id="avulsoTitleInput" type="text" placeholder="Ex: VEM PRO OFERTÃO DO BOM" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs font-semibold" required />
+            </div>
+
+            <!-- Programação de Data e Hora -->
+            <div class="p-3.5 bg-orange-50/70 rounded-xl border border-orange-200 space-y-2.5">
+              <div class="text-xs font-bold text-orange-950 flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span>Programação de Vigência (Sai sozinho)</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-700 mb-1">Início (Opcional)</label>
+                  <input id="avulsoStartInput" type="datetime-local" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold" />
+                  <span class="text-[10px] text-slate-400">Em branco = Imediato</span>
+                </div>
+                <div>
+                  <label class="block text-[11px] font-bold text-slate-700 mb-1">Término (Expira sozinho)</label>
+                  <input id="avulsoEndInput" type="datetime-local" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold" />
+                  <span class="text-[10px] text-slate-400">Sai do ar na hora marcada</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Link -->
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5">Link de Redirecionamento (Opcional)</label>
+              <input id="avulsoLinkInput" type="url" placeholder="Ex: https://www.lojaonline.pinheirosupermercado.com.br/..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs font-semibold" />
+            </div>
+
+            <button id="btnSubmitEncarte" type="submit" class="w-full py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs shadow-md transition active:scale-95 flex items-center justify-center gap-2">
+              <span>Publicar Encarte no Site</span>
+            </button>
+          </form>
+
+          <!-- Lista de Encartes Ativos -->
+          <div>
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2.5">
+              Encartes Cadastrados
+            </h3>
+            <div id="avulsoListContainer" class="space-y-2"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SENHA_ADMIN = 'Camila87993529@';
+
+    // BANCO DE DADOS INDEXEDDB (ILIMITADO E ULTRA RÁPIDO)
+    const DB_NAME = 'PinheiroEncartesDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'encartes_store';
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+          }
+        };
+        req.onsuccess = (e) => resolve(e.target.result);
+        req.onerror = (e) => reject(e.target.error);
+      });
+    }
+
+    async function dbGetAll() {
+      try {
+        const db = await openDB();
+        return new Promise((resolve) => {
+          const tx = db.transaction(STORE_NAME, 'readonly');
+          const store = tx.objectStore(STORE_NAME);
+          const req = store.getAll();
+          req.onsuccess = () => resolve(req.result || []);
+          req.onerror = () => resolve([]);
+        });
+      } catch (e) {
+        return JSON.parse(localStorage.getItem('pinheiro_encartes_marketing') || '[]');
+      }
+    }
+
+    async function dbSaveItem(item) {
+      try {
+        const db = await openDB();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          const store = tx.objectStore(STORE_NAME);
+          const req = store.put(item);
+          req.onsuccess = () => resolve();
+          req.onerror = (e) => reject(e.target.error);
+        });
+      } catch (e) {
+        const list = JSON.parse(localStorage.getItem('pinheiro_encartes_marketing') || '[]');
+        list.unshift(item);
+        localStorage.setItem('pinheiro_encartes_marketing', JSON.stringify(list));
+      }
+    }
+
+    async function dbDeleteItem(id) {
+      try {
+        const db = await openDB();
+        return new Promise((resolve) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          const store = tx.objectStore(STORE_NAME);
+          store.delete(id);
+          tx.oncomplete = () => resolve();
+        });
+      } catch (e) {
+        const list = JSON.parse(localStorage.getItem('pinheiro_encartes_marketing') || '[]');
+        const filtered = list.filter(i => i.id !== id);
+        localStorage.setItem('pinheiro_encartes_marketing', JSON.stringify(filtered));
+      }
+    }
+
+    // COMPRESSOR INTELIGENTE DE FOTOS (Mantém qualidade HD mas sem estourar memória)
+    function processImage(file) {
+      return new Promise((resolve) => {
+        if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+          const reader = new FileReader();
+          reader.onload = () => resolve({ dataUrl: reader.result, isPdf: true });
+          reader.readAsDataURL(file);
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 1600;
+            const MAX_HEIGHT = 2200;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+              if (width > MAX_WIDTH) {
+                height = Math.round((height * MAX_WIDTH) / width);
+                width = MAX_WIDTH;
+              }
+            } else {
+              if (height > MAX_HEIGHT) {
+                width = Math.round((width * MAX_HEIGHT) / height);
+                height = MAX_HEIGHT;
+              }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            // Exporta JPEG nítido e super leve
+            const compressed = canvas.toDataURL('image/jpeg', 0.85);
+            resolve({ dataUrl: compressed, isPdf: false });
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function isItemActiveNow(item) {
+      const now = new Date().getTime();
+      if (item.startDateTime && now < new Date(item.startDateTime).getTime()) return false;
+      if (item.endDateTime && now > new Date(item.endDateTime).getTime()) return false;
+      return true;
+    }
+
+    async function renderizarTudo() {
+      const todos = await dbGetAll();
+      // Ordena pelo mais recente
+      todos.sort((a, b) => b.createdAt - a.createdAt);
+
+      const ativos = todos.filter(isItemActiveNow);
+      const container = document.getElementById('flyerGrid');
+      const emptyState = document.getElementById('emptyState');
+      container.innerHTML = '';
+
+      if (ativos.length === 0) {
+        emptyState.classList.remove('hidden');
+        renderizarListaAdmin(todos);
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      ativos.forEach((file, index) => {
+        const card = document.createElement('div');
+        card.className = 'card-elevated bg-white rounded-3xl border border-slate-200/80 overflow-hidden flex flex-col cursor-pointer relative';
+
+        const totalPaginas = file.pages ? file.pages.length : 1;
+        let tagBadge = file.isPdf 
+          ? `<span class="text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">PDF</span>`
+          : (totalPaginas > 1 ? `<span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">⭐ Capa • ${totalPaginas} págs</span>` : '');
+
+        const linkBtnHtml = (file.pdfLinks && file.pdfLinks[0])
+          ? `<div class="mt-2.5">
+               <a href="${file.pdfLinks[0]}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold bg-orange-50 hover:bg-orange-100 text-orange-600 border border-orange-200 transition">
+                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                 <span>Acessar Link do Encarte</span>
+               </a>
+             </div>`
+          : '';
+
+        const imgThumb = file.isPdf
+          ? `<div class="w-full h-full flex flex-col items-center justify-center p-6 text-center text-blue-600 bg-blue-50/50">
+               <svg class="w-16 h-16 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+               <span class="text-xs font-bold text-blue-800 uppercase">Documento PDF</span>
+             </div>`
+          : `<img src="${file.imageUrl}" alt="${file.name}" class="w-full h-full object-contain p-1" loading="lazy" />`;
+
+        card.innerHTML = `
+          <div class="h-1.5 w-full bg-gradient-to-r from-orange-500 via-emerald-500 to-blue-600"></div>
+          <div class="relative aspect-[3/4] bg-slate-100 m-3 mb-0 rounded-2xl overflow-hidden flex items-center justify-center border border-slate-100">
+            ${imgThumb}
+            <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-orange-500 text-white text-[11px] font-bold shadow">OFERTA</div>
+            <div class="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-white/95 text-slate-700 text-xs font-bold border border-slate-200 shadow-sm">${file.isPdf ? 'PDF' : (totalPaginas > 1 ? totalPaginas + ' Páginas' : 'Pág. ' + (index + 1))}</div>
+          </div>
+          <div class="p-5 flex-1 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Disponível
+                </span>
+                ${tagBadge}
+              </div>
+              <h3 class="text-sm sm:text-base font-bold text-slate-800 mt-1 truncate">${file.name}</h3>
+              ${linkBtnHtml}
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex gap-2">
+              <button type="button" class="flex-1 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold shadow transition flex items-center justify-center gap-1.5">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                <span>${file.isPdf ? 'Abrir PDF' : (totalPaginas > 1 ? 'Ver Todas as Páginas' : 'Ampliar Encarte')}</span>
+              </button>
+            </div>
+          </div>
+        `;
+
+        card.onclick = () => abrirModal(file, index);
+        container.appendChild(card);
+      });
+
+      renderizarListaAdmin(todos);
+    }
+
+    // Modal Leitor
+    let activeModalFile = null;
+    let activePageIndex = 0;
+
+    function abrirModal(file, index) {
+      activeModalFile = file;
+      activePageIndex = 0;
+
+      document.getElementById('modalTitle').innerText = file.name;
+
+      const linkBtn = document.getElementById('btnModalDirectLink');
+      if (file.pdfLinks && file.pdfLinks[0]) {
+        linkBtn.href = file.pdfLinks[0];
+        linkBtn.classList.remove('hidden');
+        linkBtn.classList.add('inline-flex');
+      } else {
+        linkBtn.classList.add('hidden');
+      }
+
+      atualizarPaginaModal();
+
+      document.getElementById('modalLightbox').classList.remove('hidden');
+      document.getElementById('modalLightbox').classList.add('flex');
+    }
+
+    function atualizarPaginaModal() {
+      const file = activeModalFile;
+      if (!file) return;
+
+      const container = document.getElementById('modalContentContainer');
+      const badge = document.getElementById('modalPageBadge');
+      const btnPrev = document.getElementById('btnPrevPage');
+      const btnNext = document.getElementById('btnNextPage');
+      const thumbStrip = document.getElementById('modalThumbnailStrip');
+
+      if (file.isPdf) {
+        btnPrev.classList.add('hidden');
+        btnNext.classList.add('hidden');
+        thumbStrip.classList.add('hidden');
+        badge.innerText = 'Documento PDF';
+        container.innerHTML = `<iframe src="${file.imageUrl}" class="w-full h-full min-h-[550px] border-0" allow="autoplay; fullscreen"></iframe>`;
+        return;
+      }
+
+      const pages = file.pages || [{ dataUrl: file.imageUrl }];
+      const total = pages.length;
+
+      badge.innerText = `Página ${activePageIndex + 1} de ${total}`;
+      container.innerHTML = `<img src="${pages[activePageIndex].dataUrl}" class="max-w-full max-h-full object-contain p-2 select-none" />`;
+
+      if (total > 1) {
+        btnPrev.classList.remove('hidden');
+        btnNext.classList.remove('hidden');
+        thumbStrip.classList.remove('hidden');
+
+        btnPrev.style.display = activePageIndex > 0 ? 'flex' : 'none';
+        btnNext.style.display = activePageIndex < total - 1 ? 'flex' : 'none';
+
+        thumbStrip.innerHTML = '';
+        pages.forEach((p, idx) => {
+          const thumb = document.createElement('img');
+          thumb.src = p.dataUrl;
+          thumb.className = `w-12 h-16 object-cover rounded-lg cursor-pointer border-2 transition ${idx === activePageIndex ? 'border-orange-500 scale-105 shadow-md' : 'border-transparent opacity-60 hover:opacity-100'}`;
+          thumb.onclick = () => {
+            activePageIndex = idx;
+            atualizarPaginaModal();
+          };
+          thumbStrip.appendChild(thumb);
+        });
+      } else {
+        btnPrev.classList.add('hidden');
+        btnNext.classList.add('hidden');
+        thumbStrip.classList.add('hidden');
+      }
+    }
+
+    document.getElementById('btnPrevPage').onclick = () => {
+      if (activePageIndex > 0) {
+        activePageIndex--;
+        atualizarPaginaModal();
+      }
+    };
+
+    document.getElementById('btnNextPage').onclick = () => {
+      if (activeModalFile && activeModalFile.pages && activePageIndex < activeModalFile.pages.length - 1) {
+        activePageIndex++;
+        atualizarPaginaModal();
+      }
+    };
+
+    document.getElementById('btnCloseModal').onclick = () => {
+      document.getElementById('modalLightbox').classList.add('hidden');
+      document.getElementById('modalLightbox').classList.remove('flex');
+      document.getElementById('modalContentContainer').innerHTML = '';
+      activeModalFile = null;
+    };
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') document.getElementById('btnCloseModal').click();
+      if (e.key === 'ArrowLeft') document.getElementById('btnPrevPage').click();
+      if (e.key === 'ArrowRight') document.getElementById('btnNextPage').click();
+    });
+
+    // ADMIN
+    document.getElementById('btnOpenAdmin').onclick = () => {
+      document.getElementById('modalAdmin').classList.remove('hidden');
+      document.getElementById('adminPasswordInput').focus();
+    };
+
+    document.getElementById('btnCloseAdmin').onclick = () => {
+      document.getElementById('modalAdmin').classList.add('hidden');
+    };
+
+    document.getElementById('formAdminLogin').onsubmit = (e) => {
+      e.preventDefault();
+      const pwd = document.getElementById('adminPasswordInput').value;
+      if (pwd === SENHA_ADMIN) {
+        document.getElementById('adminErrorMsg').classList.add('hidden');
+        document.getElementById('adminLoginSection').classList.add('hidden');
+        document.getElementById('adminPanelSection').classList.remove('hidden');
+      } else {
+        document.getElementById('adminErrorMsg').classList.remove('hidden');
+      }
+    };
+
+    let selectedFilesList = [];
+    let isSelectedPdf = false;
+
+    document.getElementById('avulsoFileInput').onchange = async (e) => {
+      const files = Array.from(e.target.files);
+      if (files.length === 0) return;
+
+      selectedFilesList = [];
+      const titleInput = document.getElementById('avulsoTitleInput');
+
+      if (!titleInput.value) {
+        titleInput.value = files[0].name.replace(/\.[^/.]+$/, '').toUpperCase();
+      }
+
+      isSelectedPdf = files.length === 1 && (files[0].type === 'application/pdf' || files[0].name.toLowerCase().endsWith('.pdf'));
+
+      document.getElementById('avulsoFileNameDisplay').innerText = 'Processando e otimizando imagens...';
+
+      for (let i = 0; i < files.length; i++) {
+        const f = files[i];
+        const res = await processImage(f);
+        selectedFilesList.push({
+          id: 'temp-' + i + '-' + Date.now(),
+          name: f.name,
+          dataUrl: res.dataUrl,
+          isPdf: res.isPdf
+        });
+      }
+
+      document.getElementById('avulsoFileNameDisplay').innerText = isSelectedPdf
+        ? `PDF Carregado: ${files[0].name}`
+        : `${selectedFilesList.length} foto(s) carregada(s) com sucesso!`;
+
+      if (!isSelectedPdf && selectedFilesList.length > 1) {
+        renderizarOrganizadorPaginas();
+      } else {
+        document.getElementById('reorderContainer').classList.add('hidden');
+      }
+    };
+
+    function renderizarOrganizadorPaginas() {
+      const box = document.getElementById('reorderContainer');
+      const list = document.getElementById('previewPagesList');
+      list.innerHTML = '';
+
+      if (selectedFilesList.length <= 1) {
+        box.classList.add('hidden');
+        return;
+      }
+
+      box.classList.remove('hidden');
+
+      selectedFilesList.forEach((item, index) => {
+        const isCapa = index === 0;
+        const row = document.createElement('div');
+        row.className = `flex items-center justify-between p-2 rounded-xl border text-xs ${isCapa ? 'bg-orange-50/80 border-orange-300' : 'bg-slate-50 border-slate-200'}`;
+
+        row.innerHTML = `
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="relative w-10 h-12 rounded-lg bg-slate-200 overflow-hidden flex-shrink-0 border border-slate-300">
+              <img src="${item.dataUrl}" class="w-full h-full object-cover" />
+            </div>
+            <div class="min-w-0">
+              <div class="flex items-center gap-1.5">
+                <span class="font-bold text-slate-800">Pág. ${index + 1}</span>
+                ${isCapa ? '<span class="text-[10px] font-black text-white bg-orange-500 px-2 py-0.5 rounded shadow-sm">⭐ CAPA</span>' : ''}
+              </div>
+              <p class="text-[11px] text-slate-500 truncate max-w-[170px]">${item.name}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1 flex-shrink-0">
+            ${!isCapa ? `
+              <button type="button" class="btn-make-capa px-2 py-1 bg-amber-100 hover:bg-amber-200 text-amber-800 rounded-lg text-[10px] font-bold transition">
+                ⭐ Capa
+              </button>` : ''}
+            
+            <button type="button" class="btn-up p-1 text-slate-600 hover:bg-slate-200 rounded disabled:opacity-20" ${index === 0 ? 'disabled' : ''} title="Subir">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+            </button>
+
+            <button type="button" class="btn-down p-1 text-slate-600 hover:bg-slate-200 rounded disabled:opacity-20" ${index === selectedFilesList.length - 1 ? 'disabled' : ''} title="Descer">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+            </button>
+
+            <button type="button" class="btn-remove p-1 text-red-500 hover:bg-red-50 rounded ml-1" title="Excluir foto">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+          </div>
+        `;
+
+        const btnCapa = row.querySelector('.btn-make-capa');
+        if (btnCapa) {
+          btnCapa.onclick = () => {
+            const [itemMoved] = selectedFilesList.splice(index, 1);
+            selectedFilesList.unshift(itemMoved);
+            renderizarOrganizadorPaginas();
+          };
+        }
+
+        row.querySelector('.btn-up').onclick = () => {
+          if (index > 0) {
+            const temp = selectedFilesList[index];
+            selectedFilesList[index] = selectedFilesList[index - 1];
+            selectedFilesList[index - 1] = temp;
+            renderizarOrganizadorPaginas();
+          }
+        };
+
+        row.querySelector('.btn-down').onclick = () => {
+          if (index < selectedFilesList.length - 1) {
+            const temp = selectedFilesList[index];
+            selectedFilesList[index] = selectedFilesList[index + 1];
+            selectedFilesList[index + 1] = temp;
+            renderizarOrganizadorPaginas();
+          }
+        };
+
+        row.querySelector('.btn-remove').onclick = () => {
+          selectedFilesList.splice(index, 1);
+          renderizarOrganizadorPaginas();
+        };
+
+        list.appendChild(row);
+      });
+    }
+
+    document.getElementById('formUploadAvulso').onsubmit = async (e) => {
+      e.preventDefault();
+
+      if (selectedFilesList.length === 0) {
+        alert('Por favor, clique para selecionar o arquivo (foto ou PDF) antes de publicar.');
+        return;
+      }
+
+      const submitBtn = document.getElementById('btnSubmitEncarte');
+      submitBtn.disabled = true;
+      submitBtn.innerText = 'Salvando encarte...';
+
+      try {
+        const title = document.getElementById('avulsoTitleInput').value.trim();
+        const link = document.getElementById('avulsoLinkInput').value.trim();
+        const start = document.getElementById('avulsoStartInput').value;
+        const end = document.getElementById('avulsoEndInput').value;
+
+        const newCampaign = {
+          id: 'encarte-' + Date.now(),
+          name: title,
+          isPdf: isSelectedPdf,
+          imageUrl: selectedFilesList[0].dataUrl,
+          pages: isSelectedPdf ? [] : selectedFilesList.map(item => ({ dataUrl: item.dataUrl, name: item.name })),
+          pdfLinks: link ? [link] : [],
+          startDateTime: start || null,
+          endDateTime: end || null,
+          createdAt: Date.now()
+        };
+
+        await dbSaveItem(newCampaign);
+
+        // Limpar campos
+        document.getElementById('formUploadAvulso').reset();
+        selectedFilesList = [];
+        isSelectedPdf = false;
+        document.getElementById('avulsoFileNameDisplay').innerText = 'Clique para selecionar do computador';
+        document.getElementById('reorderContainer').classList.add('hidden');
+
+        await renderizarTudo();
+        alert('Encarte publicado com sucesso!');
+      } catch (err) {
+        console.error(err);
+        alert('Erro ao salvar encarte: ' + err.message);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Publicar Encarte no Site';
+      }
+    };
+
+    function renderizarListaAdmin(encartes) {
+      const listContainer = document.getElementById('avulsoListContainer');
+      listContainer.innerHTML = '';
+
+      if (!encartes || encartes.length === 0) {
+        listContainer.innerHTML = '<p class="text-xs text-slate-400 bg-slate-50 p-3 rounded-xl text-center">Nenhum encarte cadastrado.</p>';
+        return;
+      }
+
+      const now = new Date().getTime();
+
+      encartes.forEach((item) => {
+        let badgeStatus = '<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">🟢 Ativo</span>';
+        
+        if (item.startDateTime && now < new Date(item.startDateTime).getTime()) {
+          const d = new Date(item.startDateTime);
+          badgeStatus = `<span class="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">⏳ Inicia em ${d.toLocaleDateString('pt-BR')} às ${d.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}</span>`;
+        } else if (item.endDateTime && now > new Date(item.endDateTime).getTime()) {
+          badgeStatus = '<span class="text-[10px] font-bold text-red-700 bg-red-50 px-2 py-0.5 rounded border border-red-200">🔴 Expirado (Saiu do ar)</span>';
+        } else if (item.endDateTime) {
+          const d = new Date(item.endDateTime);
+          badgeStatus = `<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">🟢 Ativo até ${d.toLocaleDateString('pt-BR')} ${d.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'})}</span>`;
+        }
+
+        const qtdPaginas = item.isPdf ? 'PDF' : `${item.pages ? item.pages.length : 1} pág(s)`;
+
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs';
+        row.innerHTML = `
+          <div class="flex items-center gap-2.5 min-w-0">
+            <div class="w-10 h-10 rounded-lg bg-slate-200 overflow-hidden flex-shrink-0 border border-slate-300 flex items-center justify-center">
+              ${item.isPdf ? '<span class="text-[10px] font-bold text-blue-600">PDF</span>' : `<img src="${item.imageUrl}" class="w-full h-full object-cover" />`}
+            </div>
+            <div class="min-w-0 space-y-0.5">
+              <div class="flex items-center gap-1.5 truncate">
+                <span class="font-bold text-slate-800">${item.name}</span>
+                <span class="text-[10px] font-semibold text-slate-500">(${qtdPaginas})</span>
+              </div>
+              ${badgeStatus}
+            </div>
+          </div>
+          <button type="button" class="p-1.5 rounded-lg text-red-600 hover:bg-red-50 border border-red-200 transition ml-2" title="Excluir encarte">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+          </button>
+        `;
+
+        row.querySelector('button').onclick = async () => {
+          if (confirm('Deseja realmente apagar este encarte?')) {
+            await dbDeleteItem(item.id);
+            await renderizarTudo();
+          }
+        };
+        listContainer.appendChild(row);
+      });
+    }
+
+    document.getElementById('btnRefresh').onclick = renderizarTudo;
+
+    // Inicialização
+    renderizarTudo();
+
+    // Verificação periódica automática a cada 60 segundos
+    setInterval(renderizarTudo, 60000);
+  </script>
+</body>
+</html>
