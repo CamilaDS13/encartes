@@ -70,11 +70,11 @@
     </div>
   </main>
 
-  <!-- MODAL 1: LEITOR INTERATIVO (IMAGENS & PDF) -->
+  <!-- MODAL LEITOR -->
   <div id="modalLightbox" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm hidden flex-col">
     <div class="bg-white px-4 sm:px-6 py-3.5 border-b border-slate-200 flex items-center justify-between">
       <div class="flex items-center gap-2.5">
-        <span id="modalPageBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700">Pág. 1</span>
+        <span id="modalPageBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700">Ofertas</span>
         <h2 id="modalTitle" class="text-sm sm:text-base font-bold text-slate-800 truncate max-w-md">Encarte</h2>
       </div>
 
@@ -104,7 +104,7 @@
     <div id="modalThumbnailStrip" class="bg-slate-900/90 py-2.5 px-4 flex items-center justify-center gap-2 overflow-x-auto hidden"></div>
   </div>
 
-  <!-- MODAL 2: ÁREA RESTRITA DO MARKETING -->
+  <!-- MODAL ADMIN -->
   <div id="modalAdmin" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm hidden">
     <div class="bg-white rounded-3xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
       
@@ -125,14 +125,13 @@
 
       <div class="p-6 overflow-y-auto space-y-6">
         
-        <!-- Tela de Login -->
         <div id="adminLoginSection">
           <div class="text-center max-w-sm mx-auto mb-6">
             <div class="w-12 h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mx-auto mb-3">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             </div>
             <h3 class="text-base font-bold text-slate-900">Acesso Restrito</h3>
-            <p class="text-xs text-slate-500 mt-1">Digite sua senha para cadastrar ou gerenciar os encartes.</p>
+            <p class="text-xs text-slate-500 mt-1">Digite sua senha para gerenciar os encartes.</p>
           </div>
 
           <form id="formAdminLogin" class="space-y-4">
@@ -147,7 +146,6 @@
           </form>
         </div>
 
-        <!-- Tela de Upload & Gerenciador -->
         <div id="adminPanelSection" class="hidden space-y-6">
           <form id="formUploadAvulso" class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
             <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
@@ -155,9 +153,8 @@
               <span>Subir Novo Encarte ou Campanha</span>
             </h3>
 
-            <!-- Seletor de Arquivos -->
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">Arquivos (Selecione fotos ou arquivo PDF)</label>
+              <label class="block text-xs font-bold text-slate-700 mb-1.5">Arquivos (Fotos ou PDF)</label>
               <label class="border-2 border-dashed border-slate-300 hover:border-orange-500 bg-white rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer transition">
                 <input id="avulsoFileInput" type="file" accept="image/*,application/pdf" multiple class="hidden" />
                 <span id="avulsoFileNameDisplay" class="text-xs font-bold text-slate-700 text-center">Clique para selecionar do computador</span>
@@ -165,7 +162,6 @@
               </label>
             </div>
 
-            <!-- ORGANIZADOR DE CAPA E SEQUÊNCIA -->
             <div id="reorderContainer" class="hidden space-y-2 p-3.5 bg-white rounded-xl border border-slate-200">
               <div class="flex items-center justify-between">
                 <span class="text-xs font-bold text-slate-800 flex items-center gap-1">
@@ -176,13 +172,11 @@
               <div id="previewPagesList" class="space-y-2 max-h-56 overflow-y-auto pr-1"></div>
             </div>
 
-            <!-- Título -->
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1.5">Título da Oferta / Campanha</label>
               <input id="avulsoTitleInput" type="text" placeholder="Ex: VEM PRO OFERTÃO DO BOM" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs font-semibold" required />
             </div>
 
-            <!-- Programação de Data e Hora -->
             <div class="p-3.5 bg-orange-50/70 rounded-xl border border-orange-200 space-y-2.5">
               <div class="text-xs font-bold text-orange-950 flex items-center gap-1.5">
                 <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -203,7 +197,6 @@
               </div>
             </div>
 
-            <!-- Link -->
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1.5">Link de Redirecionamento (Opcional)</label>
               <input id="avulsoLinkInput" type="url" placeholder="Ex: https://www.lojaonline.pinheirosupermercado.com.br/..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs font-semibold" />
@@ -214,7 +207,6 @@
             </button>
           </form>
 
-          <!-- Lista de Encartes Ativos -->
           <div>
             <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2.5">
               Encartes Cadastrados
@@ -230,7 +222,6 @@
   <script>
     const SENHA_ADMIN = 'Camila87993529@';
 
-    // BANCO DE DADOS INDEXEDDB (ILIMITADO E ULTRA RÁPIDO)
     const DB_NAME = 'PinheiroEncartesDB';
     const DB_VERSION = 1;
     const STORE_NAME = 'encartes_store';
@@ -297,7 +288,6 @@
       }
     }
 
-    // COMPRESSOR INTELIGENTE DE FOTOS (Mantém qualidade HD mas sem estourar memória)
     function processImage(file) {
       return new Promise((resolve) => {
         if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
@@ -333,8 +323,6 @@
             canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-
-            // Exporta JPEG nítido e super leve
             const compressed = canvas.toDataURL('image/jpeg', 0.85);
             resolve({ dataUrl: compressed, isPdf: false });
           };
@@ -353,8 +341,7 @@
 
     async function renderizarTudo() {
       const todos = await dbGetAll();
-      // Ordena pelo mais recente
-      todos.sort((a, b) => b.createdAt - a.createdAt);
+      todos.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
 
       const ativos = todos.filter(isItemActiveNow);
       const container = document.getElementById('flyerGrid');
@@ -374,9 +361,19 @@
         card.className = 'card-elevated bg-white rounded-3xl border border-slate-200/80 overflow-hidden flex flex-col cursor-pointer relative';
 
         const totalPaginas = file.pages ? file.pages.length : 1;
+        
+        // Tag abaixo do título (sem duplicar número de páginas)
         let tagBadge = file.isPdf 
           ? `<span class="text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">PDF</span>`
-          : (totalPaginas > 1 ? `<span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">⭐ Capa • ${totalPaginas} págs</span>` : '');
+          : (totalPaginas > 1 ? `<span class="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">⭐ Capa</span>` : '');
+
+        // Badge superior direito (somente se tiver várias páginas ou for PDF, nada de "Pág. 1" ou "Pág. 2")
+        let topBadgeHtml = '';
+        if (file.isPdf) {
+          topBadgeHtml = `<div class="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-white/95 text-blue-700 text-xs font-bold border border-slate-200 shadow-sm">PDF</div>`;
+        } else if (totalPaginas > 1) {
+          topBadgeHtml = `<div class="absolute top-3 right-3 px-2.5 py-0.5 rounded-full bg-white/95 text-slate-700 text-xs font-bold border border-slate-200 shadow-sm">${totalPaginas} Páginas</div>`;
+        }
 
         const linkBtnHtml = (file.pdfLinks && file.pdfLinks[0])
           ? `<div class="mt-2.5">
@@ -399,7 +396,7 @@
           <div class="relative aspect-[3/4] bg-slate-100 m-3 mb-0 rounded-2xl overflow-hidden flex items-center justify-center border border-slate-100">
             ${imgThumb}
             <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-orange-500 text-white text-[11px] font-bold shadow">OFERTA</div>
-            <div class="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-white/95 text-slate-700 text-xs font-bold border border-slate-200 shadow-sm">${file.isPdf ? 'PDF' : (totalPaginas > 1 ? totalPaginas + ' Páginas' : 'Pág. ' + (index + 1))}</div>
+            ${topBadgeHtml}
           </div>
           <div class="p-5 flex-1 flex flex-col justify-between">
             <div>
@@ -428,7 +425,6 @@
       renderizarListaAdmin(todos);
     }
 
-    // Modal Leitor
     let activeModalFile = null;
     let activePageIndex = 0;
 
@@ -475,7 +471,7 @@
       const pages = file.pages || [{ dataUrl: file.imageUrl }];
       const total = pages.length;
 
-      badge.innerText = `Página ${activePageIndex + 1} de ${total}`;
+      badge.innerText = total > 1 ? `Página ${activePageIndex + 1} de ${total}` : 'Ofertas';
       container.innerHTML = `<img src="${pages[activePageIndex].dataUrl}" class="max-w-full max-h-full object-contain p-2 select-none" />`;
 
       if (total > 1) {
@@ -569,7 +565,7 @@
 
       isSelectedPdf = files.length === 1 && (files[0].type === 'application/pdf' || files[0].name.toLowerCase().endsWith('.pdf'));
 
-      document.getElementById('avulsoFileNameDisplay').innerText = 'Processando e otimizando imagens...';
+      document.getElementById('avulsoFileNameDisplay').innerText = 'Processando imagens...';
 
       for (let i = 0; i < files.length; i++) {
         const f = files[i];
@@ -684,7 +680,7 @@
       e.preventDefault();
 
       if (selectedFilesList.length === 0) {
-        alert('Por favor, clique para selecionar o arquivo (foto ou PDF) antes de publicar.');
+        alert('Por favor, selecione ao menos uma foto ou PDF antes de publicar.');
         return;
       }
 
@@ -712,7 +708,6 @@
 
         await dbSaveItem(newCampaign);
 
-        // Limpar campos
         document.getElementById('formUploadAvulso').reset();
         selectedFilesList = [];
         isSelectedPdf = false;
@@ -788,10 +783,7 @@
 
     document.getElementById('btnRefresh').onclick = renderizarTudo;
 
-    // Inicialização
     renderizarTudo();
-
-    // Verificação periódica automática a cada 60 segundos
     setInterval(renderizarTudo, 60000);
   </script>
 </body>
