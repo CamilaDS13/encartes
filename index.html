@@ -244,23 +244,64 @@
     const db = getFirestore(app, "ai-studio-encartedeofertas-15525b84-b5bb-4e23-97db-b782a65617b0");
     const encartesCol = collection(db, "encartes");
 
-    let todosEncartes = [];
+    // 1. CARREGAMENTO IMEDIATO DO CACHE LOCAL (Garante que a página NUNCA fique em branco)
+    function carregarLocal() {
+      try {
+        const salvos = localStorage.getItem('pinheiro_encartes_marketing');
+        if (salvos) {
+          const parsed = JSON.parse(salvos);
+          if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+        }
+      } catch (e) {
+        console.warn("Erro ao ler armazenamento local:", e);
+      }
+      return [];
+    }
 
-    // OUVINTE EM TEMPO REAL: Qualquer alteração aparece para todos no mesmo segundo!
-    onSnapshot(encartesCol, (snapshot) => {
-      todosEncartes = [];
-      snapshot.forEach((d) => {
-        todosEncartes.push({ id: d.id, ...d.data() });
-      });
-      todosEncartes.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-      
+    let todosEncartes = carregarLocal();
+
+    // Se já existem encartes salvos no dispositivo, exibe instantaneamente sem esperar nada!
+    if (todosEncartes.length > 0) {
       document.getElementById('loadingState').classList.add('hidden');
       document.getElementById('flyerGrid').classList.remove('hidden');
       renderizarTudo();
-    }, (error) => {
-      console.error("Erro ao sincronizar com a nuvem:", error);
+    }
+
+    // 2. SINCRONIZAÇÃO COM A NUVEM GOOGLE FIREBASE
+    onSnapshot(encartesCol, (snapshot) => {
+      const nuvemList = [];
+      snapshot.forEach((d) => {
+        nuvemList.push({ id: d.id, ...d.data() });
+      });
+      
+      if (nuvemList.length > 0) {
+        todosEncartes = nuvemList;
+        todosEncartes.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+        try {
+          localStorage.setItem('pinheiro_encartes_marketing', JSON.stringify(todosEncartes));
+        } catch(e) {}
+      }
+
       document.getElementById('loadingState').classList.add('hidden');
-      document.getElementById('emptyState').classList.remove('hidden');
+      if (todosEncartes.length === 0) {
+        document.getElementById('emptyState').classList.remove('hidden');
+        document.getElementById('flyerGrid').classList.add('hidden');
+      } else {
+        document.getElementById('emptyState').classList.add('hidden');
+        document.getElementById('flyerGrid').classList.remove('hidden');
+        renderizarTudo();
+      }
+    }, (error) => {
+      console.warn("Aviso de nuvem (limite de leituras diárias ou offline). Mantendo encartes salvos:", error);
+      document.getElementById('loadingState').classList.add('hidden');
+      if (todosEncartes.length > 0) {
+        document.getElementById('emptyState').classList.add('hidden');
+        document.getElementById('flyerGrid').classList.remove('hidden');
+        renderizarTudo();
+      } else {
+        document.getElementById('emptyState').classList.remove('hidden');
+        document.getElementById('flyerGrid').classList.add('hidden');
+      }
     });
 
     // Função de compressão otimizada para garantir visual nítido e tamanho super leve
@@ -755,8 +796,17 @@
         `;
 
         row.querySelector('button').onclick = async () => {
-          if (confirm(`Deseja realmente apagar o encarte "${item.name}" da nuvem?`)) {
-            await deleteDoc(doc(db, "encartes", item.id));
+          if (confirm(`Deseja realmente apagar o encarte "${item.name}"?`)) {
+            todosEncartes = todosEncartes.filter(e => e.id !== item.id);
+            try {
+              localStorage.setItem('pinheiro_encartes_marketing', JSON.stringify(todosEncartes));
+            } catch(e) {}
+            renderizarTudo();
+            try {
+              await deleteDoc(doc(db, "encartes", item.id));
+            } catch (err) {
+              console.warn("Removido localmente. Nuvem:", err);
+            }
           }
         };
         listContainer.appendChild(row);
