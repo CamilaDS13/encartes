@@ -214,9 +214,24 @@
             </button>
           </form>
 
+          <!-- Exportar para Todos os Aparelhos e Aba Anônima -->
+          <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-2.5">
+            <div class="flex items-center gap-2">
+              <span class="text-base">🚀</span>
+              <h4 class="text-xs font-bold text-emerald-950 uppercase tracking-wider">Publicar para Todos os Aparelhos</h4>
+            </div>
+            <p class="text-[11px] text-emerald-800 leading-relaxed">
+              Quer que os novos encartes que você subiu apareçam na <b>Aba Anônima</b>, no <b>iPhone</b> e para todos os clientes sem depender da cota diária do Firebase?
+            </p>
+            <button id="btnExportarHtml" type="button" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition active:scale-95 flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              <span>Baixar index.html com as Novas Fotos</span>
+            </button>
+          </div>
+
           <div>
             <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2.5">
-              Encartes Ativos na Nuvem
+              Encartes Ativos
             </h3>
             <div id="avulsoListContainer" class="space-y-2"></div>
           </div>
@@ -592,6 +607,25 @@
       document.getElementById('modalContentContainer').innerHTML = '';
       activeModalFile = null;
     };
+
+        // Baixar index.html com os encartes para subir no GitHub
+    document.getElementById('btnExportarHtml')?.addEventListener('click', () => {
+      let htmlDoc = document.documentElement.outerHTML;
+      const jsonStr = JSON.stringify(todosEncartes, null, 2);
+      const regex = /const ENCARTES_INICIAIS = \[[\s\S]*?\];/;
+      if (regex.test(htmlDoc)) {
+        htmlDoc = htmlDoc.replace(regex, `const ENCARTES_INICIAIS = ${jsonStr};`);
+      }
+      const fullHtml = '<!DOCTYPE html>\n<html lang="pt-BR">' + htmlDoc.slice(htmlDoc.indexOf('>') + 1);
+      const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'index.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      alert('✅ Arquivo index.html baixado!\n\nAgora basta subir esse arquivo no seu repositório no GitHub para atualizar para todos os aparelhos e na aba anônima!');
+    });
 
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') document.getElementById('btnCloseModal').click();
