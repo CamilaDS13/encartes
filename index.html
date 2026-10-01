@@ -33,24 +33,17 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
           </svg>
         </div>
-        <h1 class="text-lg sm:text-2xl font-black text-slate-900 tracking-tight">
+        <h1 class="text-base sm:text-2xl font-black text-slate-900 tracking-tight">
           Vem conferir as ofertas do seu bom vizinho.
         </h1>
       </div>
 
       <div class="flex items-center gap-2">
-        <button id="btnRefresh" type="button" class="px-3.5 py-2 rounded-xl bg-orange-50 hover:bg-orange-100 text-orange-600 border border-orange-200 text-xs font-bold flex items-center gap-1.5 transition active:scale-95 shadow-sm">
-          <svg id="syncIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-          </svg>
-          <span>Atualizar</span>
-        </button>
-
-        <button id="btnOpenAdmin" type="button" title="Área Restrita do Marketing (Senha)" class="p-2 sm:px-3.5 sm:py-2 rounded-xl bg-orange-100 hover:bg-orange-200 text-orange-700 border border-orange-200 text-xs font-bold flex items-center gap-1.5 transition active:scale-95">
+        <button id="btnOpenAdmin" type="button" title="Área Restrita do Marketing (Senha)" class="px-3 py-2 sm:px-4 sm:py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold flex items-center gap-1.5 transition active:scale-95 shadow-md shadow-orange-500/20">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
           </svg>
-          <span class="hidden sm:inline">Marketing</span>
+          <span>Marketing</span>
         </button>
       </div>
     </div>
@@ -58,7 +51,12 @@
 
   <!-- GRADE DE ENCARTES -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
-    <div id="flyerGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8"></div>
+    <div id="loadingState" class="text-center py-20">
+      <div class="w-10 h-10 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+      <p class="text-xs font-bold text-slate-500">Conectando às ofertas do bom vizinho...</p>
+    </div>
+
+    <div id="flyerGrid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8"></div>
     
     <div id="emptyState" class="hidden text-center py-20">
       <div class="w-16 h-16 rounded-3xl bg-orange-100 text-orange-600 flex items-center justify-center mx-auto mb-4">
@@ -114,7 +112,9 @@
           </div>
           <div>
             <h2 class="text-base font-black text-slate-900">Área do Marketing</h2>
-            <p class="text-xs text-slate-500">Gerenciador de campanhas e encartes</p>
+            <p class="text-xs text-emerald-600 font-semibold flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Nuvem Google Ativada
+            </p>
           </div>
         </div>
         <button id="btnCloseAdmin" type="button" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition">
@@ -147,18 +147,6 @@
 
         <div id="adminPanelSection" class="hidden space-y-6">
           
-          <!-- BOTÃO BAIXAR ARQUIVO DE PUBLICAÇÃO GITHUB -->
-          <div class="p-4 bg-emerald-50 border-2 border-dashed border-emerald-300 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div>
-              <h4 class="text-xs font-extrabold text-emerald-900 uppercase">Publicação Geral (Para Todos os Navegadores)</h4>
-              <p class="text-[11px] text-emerald-700">Baixe o arquivo de encartes e suba no seu GitHub para todos os clientes verem.</p>
-            </div>
-            <button id="btnDownloadJson" type="button" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition active:scale-95 flex items-center justify-center gap-1.5 flex-shrink-0">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-              <span>Baixar encartes.json</span>
-            </button>
-          </div>
-
           <form id="formUploadAvulso" class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
             <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
               <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
@@ -170,15 +158,13 @@
               <label class="border-2 border-dashed border-slate-300 hover:border-orange-500 bg-white rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer transition">
                 <input id="avulsoFileInput" type="file" accept="image/*,application/pdf" multiple class="hidden" />
                 <span id="avulsoFileNameDisplay" class="text-xs font-bold text-slate-700 text-center">Clique para selecionar do computador</span>
-                <span class="text-[11px] text-slate-400">Suporta 1 ou várias fotos (JPG/PNG) ou documento PDF</span>
+                <span class="text-[11px] text-slate-400">Suporta 1 ou várias fotos (JPG/PNG) ou PDF</span>
               </label>
             </div>
 
             <div id="reorderContainer" class="hidden space-y-2 p-3.5 bg-white rounded-xl border border-slate-200">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-800 flex items-center gap-1">
-                  <span>📸 Ordem das Páginas & Foto de Capa</span>
-                </span>
+                <span class="text-xs font-bold text-slate-800">📸 Ordem das Páginas</span>
                 <span class="text-[10px] text-slate-500">A 1ª foto é a CAPA ⭐</span>
               </div>
               <div id="previewPagesList" class="space-y-2 max-h-56 overflow-y-auto pr-1"></div>
@@ -186,13 +172,13 @@
 
             <div>
               <label class="block text-xs font-bold text-slate-700 mb-1.5">Título da Oferta / Campanha</label>
-              <input id="avulsoTitleInput" type="text" placeholder="Ex: VEM PRO OFERTÃO DO BOM" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs font-semibold" required />
+              <input id="avulsoTitleInput" type="text" placeholder="Ex: OFERTÃO DO BOM VIZINHO" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs font-semibold" required />
             </div>
 
             <div class="p-3.5 bg-orange-50/70 rounded-xl border border-orange-200 space-y-2.5">
               <div class="text-xs font-bold text-orange-950 flex items-center gap-1.5">
                 <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span>Programação de Vigência (Sai sozinho)</span>
+                <span>Programação de Vigência (Sai do ar sozinho)</span>
               </div>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -214,14 +200,15 @@
               <input id="avulsoLinkInput" type="url" placeholder="Ex: https://www.lojaonline.pinheirosupermercado.com.br/..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs font-semibold" />
             </div>
 
-            <button id="btnSubmitEncarte" type="submit" class="w-full py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs shadow-md transition active:scale-95 flex items-center justify-center gap-2">
-              <span>Salvar Encarte na Lista</span>
+            <button id="btnSubmitEncarte" type="submit" class="w-full py-3.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs shadow-md transition active:scale-95 flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+              <span id="btnSubmitText">Salvar e Publicar na Nuvem</span>
             </button>
           </form>
 
           <div>
             <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2.5">
-              Encartes Cadastrados
+              Encartes Ativos na Nuvem
             </h3>
             <div id="avulsoListContainer" class="space-y-2"></div>
           </div>
@@ -231,38 +218,42 @@
     </div>
   </div>
 
-  <script>
+  <!-- CONEXÃO OFICIAL COM O GOOGLE FIREBASE -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js';
+    import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js';
+
     const SENHA_ADMIN = 'Camila87993529@';
 
-    // 1. Carrega primeiro do arquivo encartes.json no GitHub, com fallback para localStorage
-    async function dbGetAll() {
-      try {
-        const timestamp = new Date().getTime();
-        const res = await fetch(`encartes.json?t=${timestamp}`);
-        if (res.ok) {
-          const list = await res.json();
-          if (Array.isArray(list) && list.length > 0) {
-            localStorage.setItem('pinheiro_encartes_marketing', JSON.stringify(list));
-            return list;
-          }
-        }
-      } catch (e) {
-        console.warn('encartes.json não encontrado ou erro de leitura:', e);
-      }
-      return JSON.parse(localStorage.getItem('pinheiro_encartes_marketing') || '[]');
-    }
+    const firebaseConfig = {
+      projectId: "decent-tangent-683d0",
+      appId: "1:303049189006:web:e9950fed4429e246148bdf",
+      apiKey: "AIzaSyBG22-_PlDDCj4bZ4eDECAMAgjTBQXlxpc",
+      authDomain: "decent-tangent-683d0.firebaseapp.com",
+    };
 
-    function dbSaveItem(item) {
-      const list = JSON.parse(localStorage.getItem('pinheiro_encartes_marketing') || '[]');
-      list.unshift(item);
-      localStorage.setItem('pinheiro_encartes_marketing', JSON.stringify(list));
-    }
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app, "ai-studio-encartedeofertas-15525b84-b5bb-4e23-97db-b782a65617b0");
+    const encartesCol = collection(db, "encartes");
 
-    function dbDeleteItem(id) {
-      const list = JSON.parse(localStorage.getItem('pinheiro_encartes_marketing') || '[]');
-      const filtered = list.filter(i => i.id !== id);
-      localStorage.setItem('pinheiro_encartes_marketing', JSON.stringify(filtered));
-    }
+    let todosEncartes = [];
+
+    // OUVINTE EM TEMPO REAL: Qualquer alteração aparece para todos no mesmo segundo!
+    onSnapshot(encartesCol, (snapshot) => {
+      todosEncartes = [];
+      snapshot.forEach((d) => {
+        todosEncartes.push({ id: d.id, ...d.data() });
+      });
+      todosEncartes.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+      
+      document.getElementById('loadingState').classList.add('hidden');
+      document.getElementById('flyerGrid').classList.remove('hidden');
+      renderizarTudo();
+    }, (error) => {
+      console.error("Erro ao sincronizar com a nuvem:", error);
+      document.getElementById('loadingState').classList.add('hidden');
+      document.getElementById('emptyState').classList.remove('hidden');
+    });
 
     function processImage(file) {
       return new Promise((resolve) => {
@@ -278,8 +269,8 @@
           const img = new Image();
           img.onload = () => {
             const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 1200;
-            const MAX_HEIGHT = 1600;
+            const MAX_WIDTH = 1000;
+            const MAX_HEIGHT = 1500;
             let width = img.width;
             let height = img.height;
 
@@ -299,7 +290,7 @@
             canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            const compressed = canvas.toDataURL('image/jpeg', 0.80);
+            const compressed = canvas.toDataURL('image/jpeg', 0.72);
             resolve({ dataUrl: compressed, isPdf: false });
           };
           img.src = e.target.result;
@@ -315,16 +306,15 @@
       return true;
     }
 
-    async function renderizarTudo() {
-      const todos = await dbGetAll();
-      const ativos = todos.filter(isItemActiveNow);
+    function renderizarTudo() {
+      const ativos = todosEncartes.filter(isItemActiveNow);
       const container = document.getElementById('flyerGrid');
       const emptyState = document.getElementById('emptyState');
       container.innerHTML = '';
 
       if (ativos.length === 0) {
         emptyState.classList.remove('hidden');
-        renderizarListaAdmin(todos);
+        renderizarListaAdmin();
         return;
       }
 
@@ -389,17 +379,17 @@
           </div>
         `;
 
-        card.onclick = () => abrirModal(file, index);
+        card.onclick = () => abrirModal(file);
         container.appendChild(card);
       });
 
-      renderizarListaAdmin(todos);
+      renderizarListaAdmin();
     }
 
     let activeModalFile = null;
     let activePageIndex = 0;
 
-    function abrirModal(file, index) {
+    function abrirModal(file) {
       activeModalFile = file;
       activePageIndex = 0;
 
@@ -654,62 +644,58 @@
         return;
       }
 
-      const title = document.getElementById('avulsoTitleInput').value.trim();
-      const link = document.getElementById('avulsoLinkInput').value.trim();
-      const start = document.getElementById('avulsoStartInput').value;
-      const end = document.getElementById('avulsoEndInput').value;
+      const btnSubmit = document.getElementById('btnSubmitEncarte');
+      const btnText = document.getElementById('btnSubmitText');
+      btnSubmit.disabled = true;
+      btnText.innerText = 'Enviando para a Nuvem...';
 
-      const newCampaign = {
-        id: 'encarte-' + Date.now(),
-        name: title,
-        imageUrl: selectedFilesList[0].dataUrl,
-        pages: isSelectedPdf ? [] : selectedFilesList.map(item => ({ dataUrl: item.dataUrl, name: item.name })),
-        pdfLinks: link ? [link] : [],
-        startDateTime: start || null,
-        endDateTime: end || null,
-        isPdf: isSelectedPdf
-      };
+      try {
+        const title = document.getElementById('avulsoTitleInput').value.trim();
+        const link = document.getElementById('avulsoLinkInput').value.trim();
+        const start = document.getElementById('avulsoStartInput').value;
+        const end = document.getElementById('avulsoEndInput').value;
 
-      dbSaveItem(newCampaign);
+        const newCampaign = {
+          name: title,
+          imageUrl: selectedFilesList[0].dataUrl,
+          pages: isSelectedPdf ? [] : selectedFilesList.map(item => ({ dataUrl: item.dataUrl, name: item.name })),
+          pdfLinks: link ? [link] : [],
+          startDateTime: start || null,
+          endDateTime: end || null,
+          isPdf: isSelectedPdf,
+          createdAt: Date.now()
+        };
 
-      document.getElementById('formUploadAvulso').reset();
-      selectedFilesList = [];
-      isSelectedPdf = false;
-      document.getElementById('avulsoFileNameDisplay').innerText = 'Clique para selecionar do computador';
-      document.getElementById('reorderContainer').classList.add('hidden');
+        await addDoc(encartesCol, newCampaign);
 
-      await renderizarTudo();
-      alert('Encarte salvo com sucesso! Agora clique em "Baixar encartes.json" e suba no seu GitHub para publicar para todo o Brasil!');
-    };
+        document.getElementById('formUploadAvulso').reset();
+        selectedFilesList = [];
+        isSelectedPdf = false;
+        document.getElementById('avulsoFileNameDisplay').innerText = 'Clique para selecionar do computador';
+        document.getElementById('reorderContainer').classList.add('hidden');
 
-    // FUNÇÃO QUE BAIXA O ARQUIVO encartes.json PARA SUBIR NO GITHUB
-    document.getElementById('btnDownloadJson').onclick = () => {
-      const list = JSON.parse(localStorage.getItem('pinheiro_encartes_marketing') || '[]');
-      if (list.length === 0) {
-        alert('Nenhum encarte cadastrado ainda para baixar. Adicione um encarte primeiro.');
-        return;
+        alert('🎉 Encarte publicado com sucesso na Nuvem! Já está visível em todos os navegadores e no site do Pinheiro!');
+      } catch (err) {
+        console.error('Erro ao salvar no Firebase:', err);
+        alert('Ocorreu um erro ao salvar na nuvem: ' + err.message);
+      } finally {
+        btnSubmit.disabled = false;
+        btnText.innerText = 'Salvar e Publicar na Nuvem';
       }
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(list, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "encartes.json");
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
     };
 
-    function renderizarListaAdmin(encartes) {
+    function renderizarListaAdmin() {
       const listContainer = document.getElementById('avulsoListContainer');
       listContainer.innerHTML = '';
 
-      if (!encartes || encartes.length === 0) {
-        listContainer.innerHTML = '<p class="text-xs text-slate-400 bg-slate-50 p-3 rounded-xl text-center">Nenhum encarte cadastrado.</p>';
+      if (!todosEncartes || todosEncartes.length === 0) {
+        listContainer.innerHTML = '<p class="text-xs text-slate-400 bg-slate-50 p-3 rounded-xl text-center">Nenhum encarte cadastrado na nuvem.</p>';
         return;
       }
 
       const now = new Date().getTime();
 
-      encartes.forEach((item) => {
+      todosEncartes.forEach((item) => {
         let badgeStatus = '<span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">🟢 Ativo</span>';
         
         if (item.startDateTime && now < new Date(item.startDateTime).getTime()) {
@@ -745,18 +731,14 @@
         `;
 
         row.querySelector('button').onclick = async () => {
-          if (confirm('Deseja realmente apagar este encarte?')) {
-            dbDeleteItem(item.id);
-            await renderizarTudo();
+          if (confirm(`Deseja realmente apagar o encarte "${item.name}" da nuvem?`)) {
+            await deleteDoc(doc(db, "encartes", item.id));
           }
         };
         listContainer.appendChild(row);
       });
     }
 
-    document.getElementById('btnRefresh').onclick = renderizarTudo;
-
-    renderizarTudo();
     setInterval(renderizarTudo, 30000);
   </script>
 </body>
