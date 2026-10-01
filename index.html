@@ -65,248 +65,191 @@
   </main>
 
   <!-- RODAPE DISCRETO COM ACESSO SECRETO DO MARKETING -->
-  <footer class="mt-12 mb-8 text-center select-none">
-    <div class="flex items-center justify-center gap-2 text-xs font-medium text-slate-400">
+    <!-- RODAPÉ DISCRETO COM ACESSO SECRETO DO MARKETING -->
+  <footer class="mt-16 mb-8 text-center select-none border-t border-slate-100 pt-8">
+    <div class="flex items-center justify-center gap-2.5 text-xs font-semibold text-slate-400">
       <span>Supermercado Pinheiro</span>
-      <button id="btnOpenAdmin" type="button" title="Pinheiro" class="w-2.5 h-2.5 rounded-full bg-slate-300 hover:bg-orange-400 transition cursor-default focus:outline-none" aria-label="Pinheiro"></button>
+      <button id="btnOpenAdmin" type="button" title="Supermercado Pinheiro" class="w-2.5 h-2.5 rounded-full bg-slate-300 hover:bg-orange-400 transition cursor-default focus:outline-none" aria-label="Pinheiro"></button>
       <span>O Bom Vizinho</span>
     </div>
-    <p class="text-[11px] text-slate-400/80 mt-1">Ofertas válidas conforme disponibilidade de estoque.</p>
+    <p class="text-[11px] text-slate-400/80 mt-1.5">Ofertas válidas conforme disponibilidade de estoque.</p>
   </footer>
-
 
   <!-- MODAL LEITOR AMPLIADO -->
   <div id="modalLightbox" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-sm hidden flex-col">
     <div class="bg-white px-4 sm:px-6 py-3.5 border-b border-slate-200 flex items-center justify-between">
       <div class="flex items-center gap-2.5">
         <span id="modalPageBadge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-orange-100 text-orange-700">Ofertas</span>
-        <h2 id="modalTitle" class="text-sm sm:text-base font-bold text-slate-800 truncate max-w-md">Encarte</h2>
+        <h2 id="modalTitle" class="text-sm sm:text-base font-bold text-slate-900 truncate max-w-md">Encarte</h2>
       </div>
-
       <div class="flex items-center gap-2">
-        <a id="btnModalDirectLink" href="#" target="_blank" rel="noopener noreferrer" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md flex items-center gap-1.5 transition active:scale-95">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-          <span>Acessar Link do Encarte</span>
+        <a id="modalDriveLink" href="#" target="_blank" rel="noopener noreferrer" class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition" title="Abrir arquivo original">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
         </a>
         <button id="btnCloseModal" type="button" class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 transition" title="Fechar (Esc)">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
     </div>
-
-    <div class="flex-1 p-2 sm:p-6 flex items-center justify-center overflow-hidden relative">
+    <div id="lightboxContent" class="flex-1 relative flex items-center justify-center p-2 sm:p-4 overflow-hidden">
       <button id="btnPrevPage" type="button" class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-xl flex items-center justify-center transition active:scale-90 z-20 hidden">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path></svg>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
       </button>
-
-      <div id="modalContentContainer" class="w-full h-full max-w-5xl rounded-2xl overflow-hidden shadow-2xl bg-white flex items-center justify-center relative"></div>
-
+      <div class="max-w-4xl max-h-[85vh] flex items-center justify-center select-none">
+        <img id="modalImage" src="" alt="" class="max-h-[85vh] max-w-full object-contain rounded-xl shadow-2xl transition-all duration-200" />
+      </div>
       <button id="btnNextPage" type="button" class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/90 hover:bg-white text-slate-800 shadow-xl flex items-center justify-center transition active:scale-90 z-20 hidden">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
       </button>
     </div>
-
-    <div id="modalThumbnailStrip" class="bg-slate-900/90 py-2.5 px-4 flex items-center justify-center gap-2 overflow-x-auto hidden"></div>
   </div>
 
-  <!-- MODAL ADMIN -->
-  <div id="modalAdmin" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm hidden">
-    <div class="bg-white rounded-3xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh]">
-      
-      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-gradient-to-r from-orange-50 via-white to-amber-50">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-2xl bg-orange-600 text-white flex items-center justify-center shadow-md shadow-orange-600/20">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-          </div>
-          <div>
-            <h2 class="text-base font-black text-slate-900">Área do Marketing</h2>
-            <p class="text-xs text-emerald-600 font-semibold flex items-center gap-1">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Nuvem Google Ativada
-            </p>
-          </div>
+  <!-- MODAL SECRETO DO MARKETING -->
+  <div id="modalAdmin" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-slate-100 flex flex-col max-h-[90vh]">
+      <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+        <div>
+          <h2 class="text-base font-black text-slate-900">Área do Marketing</h2>
+          <p class="text-xs text-slate-500">Supermercado Pinheiro • Gerenciar Encartes</p>
         </div>
         <button id="btnCloseAdmin" type="button" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
       </div>
 
-      <div class="p-6 overflow-y-auto space-y-6">
-        
-        <div id="adminLoginSection">
-          <div class="text-center max-w-sm mx-auto mb-6">
-            <div class="w-12 h-12 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center mx-auto mb-3">
+      <div class="p-6 overflow-y-auto">
+        <!-- Login Section -->
+        <div id="adminLoginSection" class="space-y-4 py-4">
+          <div class="text-center">
+            <div class="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center mx-auto mb-3">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
             </div>
-            <h3 class="text-base font-bold text-slate-900">Acesso Restrito</h3>
-            <p class="text-xs text-slate-500 mt-1">Digite sua senha para gerenciar os encartes.</p>
+            <h3 class="text-sm font-bold text-slate-800">Acesso Restrito</h3>
+            <p class="text-xs text-slate-500 mt-1">Digite sua senha de Marketing para gerenciar.</p>
           </div>
-
-          <form id="formAdminLogin" class="space-y-4">
+          <form id="formAdminLogin" class="space-y-3">
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5 uppercase">Senha</label>
-              <input id="adminPasswordInput" type="password" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Digite sua senha..." class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm font-semibold" autofocus />
-              <p id="adminErrorMsg" class="hidden text-xs font-bold text-red-600 mt-2">Senha incorreta! Tente novamente.</p>
+              <input id="adminPasswordInput" type="password" placeholder="Digite sua senha..." autocomplete="new-password" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm font-semibold" autofocus />
+              <p id="adminErrorMsg" class="hidden text-xs font-bold text-red-600 mt-1.5">Senha incorreta! Tente novamente.</p>
             </div>
-            <button type="submit" class="w-full py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm shadow-md transition active:scale-95">
-              Entrar no Painel
-            </button>
+            <button type="submit" class="w-full py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm shadow-md transition active:scale-95">Entrar</button>
           </form>
         </div>
 
-        <div id="adminPanelSection" class="hidden space-y-6">
-          
-          <form id="formUploadAvulso" class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
-            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-              <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-              <span>Adicionar Novo Encarte ou Campanha</span>
-            </h3>
-
+        <!-- Management Section -->
+        <div id="adminManagementSection" class="hidden space-y-5">
+          <div class="flex items-center justify-between bg-orange-50 p-3 rounded-xl border border-orange-200">
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">Arquivos (Fotos ou PDF de Ofertas)</label>
-              <label class="border-2 border-dashed border-slate-300 hover:border-orange-500 bg-white rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer transition">
-                <input id="avulsoFileInput" type="file" accept="image/*,application/pdf" multiple class="hidden" />
-                <span id="avulsoFileNameDisplay" class="text-xs font-bold text-slate-700 text-center">Clique para selecionar do computador</span>
-                <span id="avulsoFileSubtext" class="text-[11px] text-slate-400">Suporta Fotos (JPG/PNG) ou PDF (extração automática de páginas)</span>
-              </label>
+              <p class="text-xs font-bold text-orange-950">Sincronização com o Drive</p>
+              <p class="text-[11px] text-orange-800">5 encartes oficiais ativos na pasta</p>
             </div>
-
-            <div id="reorderContainer" class="hidden space-y-2 p-3.5 bg-white rounded-xl border border-slate-200">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-800">📸 Páginas Detectadas</span>
-                <span class="text-[10px] text-slate-500">A 1ª foto é a CAPA ⭐</span>
-              </div>
-              <div id="previewPagesList" class="space-y-2 max-h-56 overflow-y-auto pr-1"></div>
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">Título da Oferta / Campanha</label>
-              <input id="avulsoTitleInput" type="text" placeholder="Ex: VEM PRO OFERTÃO DO BOM" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs font-semibold" required />
-            </div>
-
-            <div class="p-3.5 bg-orange-50/70 rounded-xl border border-orange-200 space-y-2.5">
-              <div class="text-xs font-bold text-orange-950 flex items-center gap-1.5">
-                <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span>Programação de Vigência (Sai do ar sozinho)</span>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <div>
-                  <label class="block text-[11px] font-bold text-slate-700 mb-1">Início (Opcional)</label>
-                  <input id="avulsoStartInput" type="datetime-local" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold" />
-                  <span class="text-[10px] text-slate-400">Em branco = Imediato</span>
-                </div>
-                <div>
-                  <label class="block text-[11px] font-bold text-slate-700 mb-1">Término (Expira sozinho)</label>
-                  <input id="avulsoEndInput" type="datetime-local" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 bg-white text-xs font-semibold" />
-                  <span class="text-[10px] text-slate-400">Sai do ar na hora marcada</span>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">Link de Redirecionamento (Opcional)</label>
-              <input id="avulsoLinkInput" type="url" placeholder="Ex: https://www.lojaonline.pinheirosupermercado.com.br/produtos/..." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-orange-500 text-xs font-semibold" />
-            </div>
-
-            <button id="btnSubmitEncarte" type="submit" class="w-full py-3.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs shadow-md transition active:scale-95 flex items-center justify-center gap-2">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-              <span id="btnSubmitText">Salvar e Publicar na Nuvem</span>
+            <button type="button" id="btnRestaurarDrive" class="px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-xs font-bold transition shadow-sm">
+              Restaurar Oficiais
             </button>
+          </div>
+
+          <form id="formUploadAvulso" class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Adicionar Novo Encarte</h3>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Título da Oferta</label>
+              <input id="avulsoTitle" type="text" placeholder="Ex: HORTIFRUTI DO BOM" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-orange-500" required />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Foto ou PDF</label>
+              <input id="avulsoFileInput" type="file" accept="image/*,application/pdf" class="w-full text-xs text-slate-600 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 cursor-pointer" required />
+            </div>
+            <button type="submit" class="w-full py-2.5 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold text-xs shadow-md transition active:scale-95">Publicar Encarte</button>
           </form>
 
           <div>
-            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2.5">
-              Encartes Ativos na Nuvem
-            </h3>
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2">Encartes Ativos</h3>
             <div id="avulsoListContainer" class="space-y-2"></div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 
-    <!-- SISTEMA INDEPENDENTE E CONFIÁVEL DE ENCARTES (SEM LIMITES DE COTA) -->
+  <!-- SCRIPT DEFINITIVO, ULTRA RÁPIDO E CONFIÁVEL -->
   <script>
-    // Configurar worker do PDF.js
-    if (window.pdfjsLib) {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-    }
-
     const SENHA_ADMIN = "Camila87993529@";
 
-    // Encartes Oficiais do Supermercado Pinheiro (Sincronizados com o Google Drive)
-    const ENCARTES_PADRAO = [
+    // 5 Encartes Oficiais do Supermercado Pinheiro (Google Drive Oficial)
+    const ENCARTES_OFICIAIS = [
       {
         id: "12kODSv4u8vTPMHy13nfACrA0pBXEekOQ",
         name: "ADEGA 01 A 04/10",
-        mimeType: "image/jpeg",
-        imageUrl: "https://drive.google.com/thumbnail?id=12kODSv4u8vTPMHy13nfACrA0pBXEekOQ&sz=w1600",
-        thumbnailUrl: "https://drive.google.com/thumbnail?id=12kODSv4u8vTPMHy13nfACrA0pBXEekOQ&sz=w600",
+        imageUrl: "https://lh3.googleusercontent.com/d/12kODSv4u8vTPMHy13nfACrA0pBXEekOQ=w1200",
+        thumbnailUrl: "https://lh3.googleusercontent.com/d/12kODSv4u8vTPMHy13nfACrA0pBXEekOQ=w600",
         directDriveUrl: "https://drive.google.com/file/d/12kODSv4u8vTPMHy13nfACrA0pBXEekOQ/view",
-        downloadUrl: "https://drive.google.com/uc?export=download&id=12kODSv4u8vTPMHy13nfACrA0pBXEekOQ",
         isPdf: false,
         sizeText: "518 KB"
       },
       {
         id: "1QWfonR825K9VP_k8q4WsiurO2OUdWKk8",
         name: "CARNES 30 A 01",
-        mimeType: "image/jpeg",
-        imageUrl: "https://drive.google.com/thumbnail?id=1QWfonR825K9VP_k8q4WsiurO2OUdWKk8&sz=w1600",
-        thumbnailUrl: "https://drive.google.com/thumbnail?id=1QWfonR825K9VP_k8q4WsiurO2OUdWKk8&sz=w600",
+        imageUrl: "https://lh3.googleusercontent.com/d/1QWfonR825K9VP_k8q4WsiurO2OUdWKk8=w1200",
+        thumbnailUrl: "https://lh3.googleusercontent.com/d/1QWfonR825K9VP_k8q4WsiurO2OUdWKk8=w600",
         directDriveUrl: "https://drive.google.com/file/d/1QWfonR825K9VP_k8q4WsiurO2OUdWKk8/view",
-        downloadUrl: "https://drive.google.com/uc?export=download&id=1QWfonR825K9VP_k8q4WsiurO2OUdWKk8",
         isPdf: false,
         sizeText: "464 KB"
       },
       {
         id: "1H2FWh8OJnVk0joiU7qz7UdKSJEgnMfT0",
         name: "JSB PARCEIRO 25 A 0410",
-        mimeType: "image/jpeg",
-        imageUrl: "https://drive.google.com/thumbnail?id=1H2FWh8OJnVk0joiU7qz7UdKSJEgnMfT0&sz=w1600",
-        thumbnailUrl: "https://drive.google.com/thumbnail?id=1H2FWh8OJnVk0joiU7qz7UdKSJEgnMfT0&sz=w600",
+        imageUrl: "https://lh3.googleusercontent.com/d/1H2FWh8OJnVk0joiU7qz7UdKSJEgnMfT0=w1200",
+        thumbnailUrl: "https://lh3.googleusercontent.com/d/1H2FWh8OJnVk0joiU7qz7UdKSJEgnMfT0=w600",
         directDriveUrl: "https://drive.google.com/file/d/1H2FWh8OJnVk0joiU7qz7UdKSJEgnMfT0/view",
-        downloadUrl: "https://drive.google.com/uc?export=download&id=1H2FWh8OJnVk0joiU7qz7UdKSJEgnMfT0",
         isPdf: false,
         sizeText: "373 KB"
       },
       {
         id: "1nwgFBYivs7MlogQPLYVZOTLKAyVm2TzD",
         name: "OFERTAO 30 A 04.10",
-        mimeType: "application/pdf",
-        imageUrl: "https://drive.google.com/thumbnail?id=1nwgFBYivs7MlogQPLYVZOTLKAyVm2TzD&sz=w1600",
-        thumbnailUrl: "https://drive.google.com/thumbnail?id=1nwgFBYivs7MlogQPLYVZOTLKAyVm2TzD&sz=w600",
+        imageUrl: "https://lh3.googleusercontent.com/d/1nwgFBYivs7MlogQPLYVZOTLKAyVm2TzD=w1200",
+        thumbnailUrl: "https://lh3.googleusercontent.com/d/1nwgFBYivs7MlogQPLYVZOTLKAyVm2TzD=w600",
         directDriveUrl: "https://drive.google.com/file/d/1nwgFBYivs7MlogQPLYVZOTLKAyVm2TzD/view",
-        downloadUrl: "https://drive.google.com/uc?export=download&id=1nwgFBYivs7MlogQPLYVZOTLKAyVm2TzD",
         isPdf: true,
         sizeText: "3,7 MB"
       },
       {
         id: "12PKXwAdIMITitYgjskKhZw6bKB2bftOB",
         name: "WHATSAPP",
-        mimeType: "application/pdf",
-        imageUrl: "https://drive.google.com/thumbnail?id=12PKXwAdIMITitYgjskKhZw6bKB2bftOB&sz=w1600",
-        thumbnailUrl: "https://drive.google.com/thumbnail?id=12PKXwAdIMITitYgjskKhZw6bKB2bftOB&sz=w600",
+        imageUrl: "https://lh3.googleusercontent.com/d/12PKXwAdIMITitYgjskKhZw6bKB2bftOB=w1200",
+        thumbnailUrl: "https://lh3.googleusercontent.com/d/12PKXwAdIMITitYgjskKhZw6bKB2bftOB=w600",
         directDriveUrl: "https://drive.google.com/file/d/12PKXwAdIMITitYgjskKhZw6bKB2bftOB/view",
-        downloadUrl: "https://drive.google.com/uc?export=download&id=12PKXwAdIMITitYgjskKhZw6bKB2bftOB",
         isPdf: true,
         sizeText: "206 KB"
       }
     ];
+
+    function extrairImagem(item) {
+      if (item.pages && item.pages[0] && item.pages[0].dataUrl) return item.pages[0].dataUrl;
+      if (item.imageUrl) return item.imageUrl;
+      if (item.thumbnailUrl) return item.thumbnailUrl;
+      if (item.id && item.id.length > 20) return "https://lh3.googleusercontent.com/d/" + item.id + "=w1200";
+      return "";
+    }
 
     function carregarEncartes() {
       try {
         const local = localStorage.getItem("pinheiro_encartes_marketing");
         if (local) {
           const parsed = JSON.parse(local);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            return parsed;
+          // Verifica se os itens salvos têm imagem válida
+          const validos = parsed.filter(item => {
+            const img = extrairImagem(item);
+            return img && img.length > 20 && !img.includes("undefined");
+          });
+          if (validos.length > 0) {
+            return validos;
           }
         }
       } catch (e) {
-        console.warn("Storage local:", e);
+        console.warn("Storage:", e);
       }
-      return ENCARTES_PADRAO;
+      // Se não houver itens válidos no computador, usa os 5 encartes oficiais do Drive!
+      return ENCARTES_OFICIAIS;
     }
 
     let todosEncartes = carregarEncartes();
@@ -318,22 +261,16 @@
 
       if (loading) loading.classList.add("hidden");
 
-      const agora = new Date().toISOString();
-      const ativos = todosEncartes.filter(e => {
-        if (e.startDateTime && e.startDateTime > agora) return false;
-        if (e.endDateTime && e.endDateTime < agora) return false;
-        return true;
-      });
-
-      if (ativos.length === 0) {
+      if (!todosEncartes || todosEncartes.length === 0) {
         if (empty) empty.classList.remove("hidden");
         if (grid) grid.classList.add("hidden");
-      } else {
-        if (empty) empty.classList.add("hidden");
-        if (grid) {
-          grid.classList.remove("hidden");
-          renderizarGrade(ativos);
-        }
+        return;
+      }
+
+      if (empty) empty.classList.add("hidden");
+      if (grid) {
+        grid.classList.remove("hidden");
+        renderizarGrade(todosEncartes);
       }
     }
 
@@ -342,27 +279,28 @@
       if (!container) return;
 
       container.innerHTML = lista.map((file, index) => {
-        const thumb = file.thumbnailUrl || file.imageUrl;
-        const fallback = file.imageUrl;
+        const img = extrairImagem(file);
         const isPdf = file.isPdf;
 
         return `
-          <div class="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden transform hover:-translate-y-1">
-            <div class="relative w-full aspect-[3/4] bg-slate-100 overflow-hidden cursor-pointer" onclick="abrirLightbox(${index})">
+          <div class="group bg-white rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden transform hover:-translate-y-1">
+            <div class="h-1.5 w-full bg-gradient-to-r from-orange-500 via-emerald-500 to-orange-400"></div>
+            
+            <div class="relative w-full aspect-[3/4] bg-slate-50 overflow-hidden cursor-pointer flex items-center justify-center p-3" onclick="abrirLightbox(${index})">
               <img 
-                src="${thumb}" 
-                alt="${file.name}"
-                class="w-full h-full object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+                src="${img}" 
+                alt=""
+                class="max-w-full max-h-full object-contain drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
                 loading="lazy"
-                onerror="if(this.src !== '${fallback}') { this.src='${fallback}'; } else { this.parentElement.innerHTML = '<div class=\'w-full h-full flex flex-col items-center justify-center text-slate-400 p-4 text-center\'><span class=\'text-4xl mb-2\'>📄</span><span class=\'text-xs font-bold text-slate-600\'>${file.name}</span><span class=\'text-[11px] text-orange-600 mt-2 font-bold\'>Clique para abrir</span></div>'; }"
+                onerror="this.onerror=null; this.src='https://drive.google.com/thumbnail?id=${file.id}&sz=w800';"
               />
               <div class="absolute top-3 left-3 flex flex-wrap gap-1.5 pointer-events-none">
-                <span class="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-orange-500 text-white shadow-sm">
+                <span class="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-orange-500 text-white shadow-sm">
                   ${isPdf ? "Encarte PDF" : "Oferta"}
                 </span>
-                ${file.sizeText ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/90 text-slate-600 backdrop-blur-sm shadow-sm">${file.sizeText}</span>` : ""}
+                ${file.sizeText ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/90 text-slate-700 backdrop-blur-sm shadow-sm border border-slate-200">${file.sizeText}</span>` : ""}
               </div>
-              <div class="absolute inset-0 bg-slate-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <div class="absolute inset-0 bg-slate-900/15 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                 <span class="px-4 py-2 rounded-xl bg-white text-slate-900 font-bold text-xs shadow-lg flex items-center gap-1.5">
                   <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                   Ver em tamanho maior
@@ -400,66 +338,23 @@
       }).join("");
     }
 
-    // Lightbox / Leitor
-    let indiceAtual = 0;
-    let paginasAtuais = [];
-    let indicePagina = 0;
-
+    // Leitor Lightbox
     window.abrirLightbox = function(index) {
-      const lista = todosEncartes;
-      if (!lista || !lista[index]) return;
-
-      indiceAtual = index;
-      const file = lista[index];
-
+      if (!todosEncartes || !todosEncartes[index]) return;
+      const file = todosEncartes[index];
       const modal = document.getElementById("modalLightbox");
       const title = document.getElementById("modalTitle");
       const driveBtn = document.getElementById("modalDriveLink");
-      const prevBtn = document.getElementById("btnPrevPage");
-      const nextBtn = document.getElementById("btnNextPage");
-      const badge = document.getElementById("modalPageBadge");
+      const img = document.getElementById("modalImage");
 
       if (title) title.innerText = file.name;
-      if (driveBtn) driveBtn.href = file.directDriveUrl || file.imageUrl;
+      if (driveBtn) driveBtn.href = file.directDriveUrl || extrairImagem(file);
+      if (img) img.src = extrairImagem(file);
 
       modal.classList.remove("hidden");
       modal.classList.add("flex");
       document.body.style.overflow = "hidden";
-
-      if (file.pages && file.pages.length > 0) {
-        paginasAtuais = file.pages;
-        indicePagina = 0;
-        mostrarPaginaAtual();
-      } else {
-        paginasAtuais = [{ name: file.name, dataUrl: file.imageUrl }];
-        indicePagina = 0;
-        if (prevBtn) prevBtn.classList.add("hidden");
-        if (nextBtn) nextBtn.classList.add("hidden");
-        if (badge) badge.innerText = "Página 1/1";
-        document.getElementById("modalImage").src = file.imageUrl;
-      }
     };
-
-    function mostrarPaginaAtual() {
-      if (paginasAtuais.length === 0) return;
-      const p = paginasAtuais[indicePagina];
-      const img = document.getElementById("modalImage");
-      const badge = document.getElementById("modalPageBadge");
-      const prevBtn = document.getElementById("btnPrevPage");
-      const nextBtn = document.getElementById("btnNextPage");
-
-      if (img) img.src = p.dataUrl;
-      if (badge) badge.innerText = `Página ${indicePagina + 1} de ${paginasAtuais.length}`;
-
-      if (prevBtn) {
-        if (indicePagina > 0) prevBtn.classList.remove("hidden");
-        else prevBtn.classList.add("hidden");
-      }
-      if (nextBtn) {
-        if (indicePagina < paginasAtuais.length - 1) nextBtn.classList.remove("hidden");
-        else nextBtn.classList.add("hidden");
-      }
-    }
 
     window.fecharModal = function() {
       const modal = document.getElementById("modalLightbox");
@@ -475,28 +370,12 @@
       if (e.target.id === "modalLightbox" || e.target.id === "lightboxContent") fecharModal();
     });
 
-    document.getElementById("btnPrevPage")?.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (indicePagina > 0) {
-        indicePagina--;
-        mostrarPaginaAtual();
-      }
-    });
-
-    document.getElementById("btnNextPage")?.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (indicePagina < paginasAtuais.length - 1) {
-        indicePagina++;
-        mostrarPaginaAtual();
-      }
-    });
-
     window.compartilharWhatsApp = function(titulo, url) {
       const msg = `🛒 *Supermercado Pinheiro - Ofertas do Bom Vizinho*\n\nConfira as ofertas de *${decodeURIComponent(titulo)}*:\n${decodeURIComponent(url)}`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(msg)}`, "_blank");
     };
 
-    // ÁREA RESTRITA DO MARKETING (ACESSO SECRETO NO RODAPÉ)
+    // Acesso Secreto do Marketing
     const btnOpenAdmin = document.getElementById("btnOpenAdmin");
     const modalAdmin = document.getElementById("modalAdmin");
     const btnCloseAdmin = document.getElementById("btnCloseAdmin");
@@ -505,6 +384,7 @@
     const adminLoginSection = document.getElementById("adminLoginSection");
     const adminManagementSection = document.getElementById("adminManagementSection");
     const adminErrorMsg = document.getElementById("adminErrorMsg");
+    const btnRestaurarDrive = document.getElementById("btnRestaurarDrive");
 
     btnOpenAdmin?.addEventListener("click", () => {
       modalAdmin.classList.remove("hidden");
@@ -529,6 +409,19 @@
         renderizarListaAdmin();
       } else {
         adminErrorMsg.classList.remove("hidden");
+      }
+    });
+
+    // Restaurar encartes do Drive com 1 clique
+    btnRestaurarDrive?.addEventListener("click", () => {
+      if (confirm("Deseja restaurar os 5 encartes oficiais do Google Drive?")) {
+        todosEncartes = [...ENCARTES_OFICIAIS];
+        try {
+          localStorage.setItem("pinheiro_encartes_marketing", JSON.stringify(todosEncartes));
+        } catch (e) {}
+        renderizarListaAdmin();
+        exibirEncartes();
+        alert("Encartes do Drive restaurados com sucesso!");
       }
     });
 
@@ -566,7 +459,7 @@
       }
     };
 
-    // Upload de novo encarte
+    // Upload
     const formUpload = document.getElementById("formUploadAvulso");
     formUpload?.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -575,7 +468,7 @@
       const file = fileInput.files[0];
 
       if (!title || !file) {
-        alert("Preencha o título e selecione uma imagem ou PDF.");
+        alert("Preencha o título e selecione um arquivo.");
         return;
       }
 
@@ -588,8 +481,7 @@
           imageUrl: reader.result,
           thumbnailUrl: reader.result,
           isPdf: isPdf,
-          sizeText: (file.size / 1024).toFixed(0) + " KB",
-          createdAt: Date.now()
+          sizeText: (file.size / 1024).toFixed(0) + " KB"
         };
 
         todosEncartes.unshift(novo);
@@ -598,7 +490,6 @@
         } catch (e) {}
 
         formUpload.reset();
-        document.getElementById("avulsoFileNameDisplay").innerText = "Clique para selecionar do computador";
         renderizarListaAdmin();
         exibirEncartes();
         alert("🎉 Encarte adicionado com sucesso!");
@@ -606,7 +497,6 @@
       reader.readAsDataURL(file);
     });
 
-    // Tecla ESC para fechar modais
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         fecharModal();
@@ -618,7 +508,7 @@
       }
     });
 
-    // Iniciar renderização imediatamente
+    // Iniciar na hora
     exibirEncartes();
   </script>
 </body>
